@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+     mavenCentral()
+}
+
+dependencies {
+    compile 'mysql:mysql-connector-java:5.1.29'
+    compile "org.testng:testng:6.8.7"
+    compile("org.uncommons:reportng:1.1.2") {
+        exclude group: "org.testng", module: "testng"
+    }
+    compile "com.jcraft:jsch:0.1.44-1"
+    compile "org.seleniumhq.selenium:selenium-java:2.53.0"
+    compile "javax.servlet:servlet-api:2.5"
+    compile "net.sourceforge.jexcelapi:jxl:2.6.12"
+}
+
+version = '1.0'
+
+jar {
+     manifest.attributes provider: 'gradle'
+}
+
+task run(type: JavaExec, dependsOn: classes) {
+    main = 'org.testng.TestNG'
+    args = ['build/resources/main/testng.xml'].toList()
+    classpath configurations.runtime
+    classpath sourceSets.main.output
+}
